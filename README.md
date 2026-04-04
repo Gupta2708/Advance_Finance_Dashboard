@@ -1,36 +1,150 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Zorvyn
 
-## Getting Started
+A modern, production-quality fintech dashboard built with **Next.js App Router** that focuses on frontend architecture, clean UX, and interactive financial analytics.
 
-First, run the development server:
+## Project Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+This project simulates a real fintech product experience with:
+- dynamic summary metrics
+- chart-driven insights
+- advanced transaction controls
+- role-based UI behavior (Viewer/Admin)
+- polished responsive design across mobile, tablet, and desktop
+
+No backend is used. All logic is frontend-driven using mock data and client state.
+
+## Features
+
+### Dashboard Overview
+- Summary cards for Total Balance, Income, Expenses, and Net Savings
+- Interactive monthly trend chart (Income vs Expense vs Balance)
+- Category spending pie chart
+- Real-time updates based on active search/filter/sort state
+
+### Transactions
+- Search by merchant, description, or category
+- Filter by transaction type and category
+- Sort by date or amount
+- Responsive UI:
+  - desktop table
+  - mobile stacked cards
+- Empty-state UI when no results match
+- Color-coded transaction amounts and type badges
+
+### Role-Based UI Simulation
+- `Viewer`: read-only access
+- `Admin`: full CRUD operations
+  - add transaction (modal form)
+  - edit transaction
+  - delete with confirmation dialog
+
+### Insights Panel
+Computed from current filtered transactions:
+- Highest spending category
+- Current vs previous month expense comparison
+- Net savings
+- Insight narrative message (e.g., monthly spend trend)
+
+### Enhancements Included
+- Dark mode toggle
+- LocalStorage persistence (transactions, role, theme)
+- Framer Motion animations
+- Toast notifications
+- Export filtered transactions to CSV and JSON
+
+## Tech Stack
+
+- **Next.js** (App Router, latest)
+- **React** (Client Components for interactivity)
+- **Tailwind CSS**
+- **Zustand** + persist middleware
+- **Recharts**
+- **Framer Motion**
+- **Sonner** (toast notifications)
+- **Lucide React** (icons)
+
+## Folder Structure
+
+```txt
+app/
+  layout.tsx
+  page.tsx
+  globals.css
+
+components/
+  dashboard/
+    SummaryCards.tsx
+    TrendChart.tsx
+    CategoryChart.tsx
+    InsightsPanel.tsx
+  transactions/
+    TransactionTable.tsx
+    TransactionRow.tsx
+    TransactionFilters.tsx
+    TransactionFormModal.tsx
+  shared/
+    Navbar.tsx
+    RoleSwitcher.tsx
+    ThemeToggle.tsx
+    EmptyState.tsx
+    StatCard.tsx
+
+data/
+  mockTransactions.ts
+
+store/
+  useStore.ts
+
+types/
+  finance.ts
+
+utils/
+  calculations.ts
+  filters.ts
+  formatters.ts
+  exporters.ts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup Instructions
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Run development server:
+   ```bash
+   npm run dev
+   ```
+3. Open:
+   ```txt
+   http://localhost:3000
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Role-Based UI Behavior
 
-## Learn More
+- Use the role switcher in the top navbar.
+- `Viewer` can inspect metrics, charts, and transactions only.
+- `Admin` can add, edit, delete transactions; all changes persist in LocalStorage.
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `npm run dev` - start local development server
+- `npm run lint` - run ESLint
+- `npm run build` - create production build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Screenshots / Demo
 
-## Deploy on Vercel
+Add your screenshots here for portfolio submission:
+- `public/screenshots/dashboard-overview.png`
+- `public/screenshots/transactions-mobile.png`
+- `public/screenshots/dark-mode.png`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Or include a deployed demo link in this section.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Future Improvements
+
+- Add recurring transaction templates
+- Add budget goals with progress indicators
+- Add per-category drill-down pages
+- Add PWA support and offline sync
+- Integrate real backend/auth for multi-user data

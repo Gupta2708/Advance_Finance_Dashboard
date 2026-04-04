@@ -1,26 +1,95 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+:root,
+.light {
+  --background: #eef3fb;
+  --foreground: #0f172a;
+  --foreground-strong: #081225;
+  --muted-foreground: #475569;
+  --card: #ffffff;
+  --shell: #f8fbff;
+  --surface: #ffffff;
+  --surface-hover: #f7faff;
+  --surface-highlight: #edf4ff;
+  --surface-strong: #d7e4f5;
+  --border: rgba(15, 23, 42, 0.1);
+  --accent: #1d4ed8;
+  --accent-soft: #dbeafe;
+  --chart-grid: #dce7f7;
+  --font-primary: "Aptos", "Segoe UI", "Trebuchet MS", sans-serif;
+  --font-heading: "Franklin Gothic Medium", "Aptos", "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+
+.dark {
+  --background: #070b1d;
+  --foreground: #e2e8f0;
+  --foreground-strong: #f8fafc;
+  --muted-foreground: #94a3b8;
+  --card: #0f162c;
+  --shell: #0d1326;
+  --surface: #111a30;
+  --surface-hover: #16203a;
+  --surface-highlight: #16284b;
+  --surface-strong: #24314e;
+  --border: rgba(148, 163, 184, 0.16);
+  --accent: #60a5fa;
+  --accent-soft: #1e293b;
+  --chart-grid: #243040;
+  color-scheme: dark;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-primary);
+  --font-mono: "Consolas", "Cascadia Mono", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(920px 420px at -10% -10%, rgb(79 70 229 / 0.13), transparent 60%),
+    radial-gradient(1000px 380px at 105% 0%, rgb(34 197 94 / 0.08), transparent 62%),
+    var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-primary);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+}
+
+input,
+select,
+textarea {
+  color: var(--foreground);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted-foreground);
+}
+
+select {
+  background-color: var(--surface);
+}
+
+option {
+  background-color: var(--surface);
+  color: var(--foreground);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 26%, transparent);
 }

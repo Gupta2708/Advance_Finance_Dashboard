@@ -1,65 +1,79 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect } from "react";
+import dynamic from "next/dynamic";
+import { motion } from "framer-motion";
+import { Toaster } from "sonner";
+import { InsightsPanel } from "@/components/dashboard/InsightsPanel";
+import { SummaryCards } from "@/components/dashboard/SummaryCards";
+import { AppSidebar } from "@/components/shared/AppSidebar";
+import { Navbar } from "@/components/shared/Navbar";
+import { TransactionFilters } from "@/components/transactions/TransactionFilters";
+import { TransactionFormModal } from "@/components/transactions/TransactionFormModal";
+import { TransactionTable } from "@/components/transactions/TransactionTable";
+import { useStore } from "@/store/useStore";
+
+const TrendChart = dynamic(() => import("@/components/dashboard/TrendChart").then((mod) => mod.TrendChart), {
+  ssr: false,
+});
+
+const CategoryChart = dynamic(() => import("@/components/dashboard/CategoryChart").then((mod) => mod.CategoryChart), {
+  ssr: false,
+});
 
 export default function Home() {
+  const theme = useStore((state) => state.theme);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
+  }, [theme]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
+      <div className="mx-auto flex w-full max-w-[1820px] gap-5 px-4 py-5 md:px-6 xl:px-8">
+        <AppSidebar />
+
+        <div className="min-w-0 flex-1 overflow-hidden rounded-[34px] border border-[var(--border)] bg-[var(--shell)] shadow-[0_30px_80px_rgba(15,23,42,0.10)]">
+          <Navbar />
+
+          <main className="grid w-full gap-7 px-4 py-6 md:px-8 lg:px-10">
+            <section id="overview" className="scroll-mt-28">
+              <SummaryCards />
+            </section>
+
+            <motion.section
+              id="analytics"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35 }}
+              className="grid scroll-mt-28 gap-6 xl:grid-cols-[1.55fr_0.95fr]"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              <TrendChart />
+              <CategoryChart />
+            </motion.section>
+
+            <section id="insights" className="scroll-mt-28">
+              <InsightsPanel />
+            </section>
+
+            <section id="transactions" className="scroll-mt-28 space-y-4">
+              <div>
+                <h2 className="text-[2rem] font-semibold tracking-tight text-[var(--foreground-strong)]">Transactions</h2>
+                <p className="mt-1 text-sm text-[var(--muted-foreground)]">
+                  Search, filter, and manage transaction history in real time.
+                </p>
+              </div>
+              <TransactionFilters />
+              <TransactionTable />
+            </section>
+          </main>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </div>
+
+      <TransactionFormModal />
+      <Toaster richColors position="top-right" />
     </div>
   );
 }
