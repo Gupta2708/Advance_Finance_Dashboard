@@ -15,7 +15,7 @@ export function Navbar() {
   const setSearch = useStore((state) => state.setSearch);
   const openModal = useStore((state) => state.openModal);
   const filteredTransactions = applyFilters(transactions, filters);
-  const profileLabel = "Employee";
+  const profileLabel = "Vaibhav";
 
   const handleExportCsv = () => {
     exportTransactionsAsCsv(filteredTransactions);
