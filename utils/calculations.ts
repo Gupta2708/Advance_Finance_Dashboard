@@ -1,6 +1,8 @@
 import type {
   CategoryBreakdownPoint,
+  DescriptionBreakdownPoint,
   InsightSummary,
+  PaymentMethodBreakdownPoint,
   SummaryStats,
   Transaction,
   TrendPoint,
@@ -126,4 +128,95 @@ export const getInsights = (transactions: Transaction[]): InsightSummary => {
     netSavings: stats.netSavings,
     message,
   };
+};
+
+const DESCRIPTION_STOP_WORDS = new Set([
+  "the",
+  "a",
+  "an",
+  "for",
+  "with",
+  "to",
+  "and",
+  "of",
+  "monthly",
+  "annual",
+  "weekend",
+  "plan",
+]);
+
+const normalizeDescription = (description: string) => {
+  const tokens = description
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter((token) => token && !DESCRIPTION_STOP_WORDS.has(token));
+
+  return tokens.join(" ").trim() || description.toLowerCase().trim();
+};
+
+export const getDescriptionBreakdown = (
+  transactions: Transaction[],
+): DescriptionBreakdownPoint[] => {
+  const map = new Map<string, DescriptionBreakdownPoint>();
+
+  transactions.forEach((transaction) => {
+    const normalizedKey = normalizeDescription(transaction.description);
+    const existing = map.get(normalizedKey) ?? {
+      description: transaction.description,
+      normalizedKey,
+      occurrences: 0,
+      income: 0,
+      expense: 0,
+      total: 0,
+    };
+
+    existing.occurrences += 1;
+    if (transaction.type === "income") {
+      existing.income += transaction.amount;
+    } else {
+      existing.expense += transaction.amount;
+    }
+    existing.total = existing.income + existing.expense;
+
+    map.set(normalizedKey, existing);
+  });
+
+  return Array.from(map.values())
+    .sort((a, b) => {
+      if (b.occurrences !== a.occurrences) {
+        return b.occurrences - a.occurrences;
+      }
+      return b.total - a.total;
+    })
+    .slice(0, 8);
+};
+
+export const getPaymentMethodBreakdown = (
+  transactions: Transaction[],
+): PaymentMethodBreakdownPoint[] => {
+  const map = new Map<string, PaymentMethodBreakdownPoint>();
+
+  transactions.forEach((transaction) => {
+    const key = transaction.paymentMethod;
+    const existing = map.get(key) ?? {
+      paymentMethod: key,
+      income: 0,
+      expense: 0,
+      total: 0,
+      transactionCount: 0,
+    };
+
+    existing.transactionCount += 1;
+    if (transaction.type === "income") {
+      existing.income += transaction.amount;
+    } else {
+      existing.expense += transaction.amount;
+    }
+    existing.total = existing.income + existing.expense;
+
+    map.set(key, existing);
+  });
+
+  return Array.from(map.values()).sort((a, b) => b.total - a.total);
 };

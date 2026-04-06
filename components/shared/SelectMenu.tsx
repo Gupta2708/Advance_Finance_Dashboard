@@ -64,7 +64,7 @@ export function SelectMenu<T extends string>({
         aria-expanded={open}
         onClick={() => setOpen((current) => !current)}
         className={clsx(
-          "flex h-12 w-full items-center justify-between rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-5 text-left text-[var(--foreground)] shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition hover:border-[var(--surface-strong)] hover:bg-[var(--surface-hover)]",
+          "flex h-12 w-full cursor-pointer items-center justify-between rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-5 text-left text-[var(--foreground)] shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition hover:border-[var(--surface-strong)] hover:bg-[var(--surface-hover)]",
           triggerClassName,
         )}
       >

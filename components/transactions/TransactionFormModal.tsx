@@ -4,8 +4,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { useStore } from "@/store/useStore";
-import { CATEGORIES } from "@/types/finance";
-import type { Transaction, TransactionCategory, TransactionType } from "@/types/finance";
+import { CATEGORIES, PAYMENT_METHODS } from "@/types/finance";
+import type { PaymentMethod, Transaction, TransactionCategory, TransactionType } from "@/types/finance";
 import { toInputDate } from "@/utils/formatters";
 
 interface FormValues {
@@ -15,6 +15,7 @@ interface FormValues {
   amount: string;
   category: TransactionCategory;
   type: TransactionType;
+  paymentMethod: PaymentMethod;
   note: string;
 }
 
@@ -25,6 +26,7 @@ const defaultValues: FormValues = {
   amount: "",
   category: "Food",
   type: "expense",
+  paymentMethod: "UPI",
   note: "",
 };
 
@@ -37,6 +39,7 @@ const toFormValues = (transaction?: Transaction): FormValues => {
     amount: String(transaction.amount),
     category: transaction.category,
     type: transaction.type,
+    paymentMethod: transaction.paymentMethod ?? "UPI",
     note: transaction.note ?? "",
   };
 };
@@ -77,6 +80,7 @@ function TransactionFormBody({
       amount: parsedAmount,
       category: values.category,
       type: values.type,
+      paymentMethod: values.paymentMethod,
       note: values.note,
     };
 
@@ -94,7 +98,7 @@ function TransactionFormBody({
   return (
     <motion.form
       onSubmit={submit}
-      className="w-full max-w-xl rounded-2xl border border-slate-200 bg-white p-5 shadow-xl dark:border-slate-700 dark:bg-slate-900"
+      className="w-full max-w-xl rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 text-[var(--foreground)] shadow-xl"
       initial={{ y: 8, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: 8, opacity: 0 }}
@@ -104,7 +108,7 @@ function TransactionFormBody({
         <button
           type="button"
           onClick={onClose}
-          className="rounded-lg border border-slate-200 px-3 py-1.5 text-sm dark:border-slate-700"
+          className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--foreground)]"
         >
           Close
         </button>
@@ -119,7 +123,7 @@ function TransactionFormBody({
             onChange={(event) =>
               setValues((prev) => ({ ...prev, description: event.target.value }))
             }
-            className="h-10 rounded-lg border border-slate-200 bg-white px-3 dark:border-slate-700 dark:bg-slate-900"
+            className="h-10 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 text-[var(--foreground)] outline-none focus:border-[var(--accent)]"
           />
         </label>
 
@@ -131,7 +135,7 @@ function TransactionFormBody({
             onChange={(event) =>
               setValues((prev) => ({ ...prev, merchant: event.target.value }))
             }
-            className="h-10 rounded-lg border border-slate-200 bg-white px-3 dark:border-slate-700 dark:bg-slate-900"
+            className="h-10 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 text-[var(--foreground)] outline-none focus:border-[var(--accent)]"
           />
         </label>
 
@@ -142,7 +146,7 @@ function TransactionFormBody({
             required
             value={values.date}
             onChange={(event) => setValues((prev) => ({ ...prev, date: event.target.value }))}
-            className="h-10 rounded-lg border border-slate-200 bg-white px-3 dark:border-slate-700 dark:bg-slate-900"
+            className="h-10 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 text-[var(--foreground)] outline-none focus:border-[var(--accent)]"
           />
         </label>
 
@@ -155,7 +159,7 @@ function TransactionFormBody({
             required
             value={values.amount}
             onChange={(event) => setValues((prev) => ({ ...prev, amount: event.target.value }))}
-            className="h-10 rounded-lg border border-slate-200 bg-white px-3 dark:border-slate-700 dark:bg-slate-900"
+            className="h-10 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 text-[var(--foreground)] outline-none focus:border-[var(--accent)]"
           />
         </label>
 
@@ -166,7 +170,7 @@ function TransactionFormBody({
             onChange={(event) =>
               setValues((prev) => ({ ...prev, type: event.target.value as TransactionType }))
             }
-            className="h-10 rounded-lg border border-slate-200 bg-white px-3 dark:border-slate-700 dark:bg-slate-900"
+            className="h-10 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 text-[var(--foreground)] outline-none focus:border-[var(--accent)]"
           >
             <option value="income">Income</option>
             <option value="expense">Expense</option>
@@ -180,11 +184,28 @@ function TransactionFormBody({
             onChange={(event) =>
               setValues((prev) => ({ ...prev, category: event.target.value as TransactionCategory }))
             }
-            className="h-10 rounded-lg border border-slate-200 bg-white px-3 dark:border-slate-700 dark:bg-slate-900"
+            className="h-10 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 text-[var(--foreground)] outline-none focus:border-[var(--accent)]"
           >
             {CATEGORIES.map((category) => (
               <option key={category} value={category}>
                 {category}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="flex flex-col gap-1 text-sm sm:col-span-2">
+          Payment Method
+          <select
+            value={values.paymentMethod}
+            onChange={(event) =>
+              setValues((prev) => ({ ...prev, paymentMethod: event.target.value as PaymentMethod }))
+            }
+            className="h-10 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 text-[var(--foreground)] outline-none focus:border-[var(--accent)]"
+          >
+            {PAYMENT_METHODS.map((method) => (
+              <option key={method} value={method}>
+                {method}
               </option>
             ))}
           </select>
@@ -196,7 +217,7 @@ function TransactionFormBody({
             rows={3}
             value={values.note}
             onChange={(event) => setValues((prev) => ({ ...prev, note: event.target.value }))}
-            className="rounded-lg border border-slate-200 bg-white px-3 py-2 dark:border-slate-700 dark:bg-slate-900"
+            className="rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-[var(--foreground)] outline-none focus:border-[var(--accent)]"
           />
         </label>
       </div>
@@ -207,7 +228,7 @@ function TransactionFormBody({
         <button
           type="button"
           onClick={onClose}
-          className="rounded-lg border border-slate-200 px-4 py-2 text-sm dark:border-slate-700"
+          className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm text-[var(--foreground)]"
         >
           Cancel
         </button>

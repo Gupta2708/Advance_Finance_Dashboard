@@ -38,6 +38,7 @@ export function TransactionTable() {
               <th className="px-4 py-3">Date</th>
               <th className="px-4 py-3">Description</th>
               <th className="px-4 py-3">Category</th>
+              <th className="px-4 py-3">Method</th>
               <th className="px-4 py-3">Type</th>
               <th className="px-4 py-3">Amount</th>
               <th className="px-4 py-3 text-right">Actions</th>

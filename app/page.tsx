@@ -21,6 +21,16 @@ const CategoryChart = dynamic(() => import("@/components/dashboard/CategoryChart
   ssr: false,
 });
 
+const DescriptionBreakdownChart = dynamic(
+  () => import("@/components/dashboard/DescriptionBreakdownChart").then((mod) => mod.DescriptionBreakdownChart),
+  { ssr: false },
+);
+
+const PaymentMethodChart = dynamic(
+  () => import("@/components/dashboard/PaymentMethodChart").then((mod) => mod.PaymentMethodChart),
+  { ssr: false },
+);
+
 export default function Home() {
   const theme = useStore((state) => state.theme);
 
@@ -52,6 +62,16 @@ export default function Home() {
             >
               <TrendChart />
               <CategoryChart />
+            </motion.section>
+
+            <motion.section
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: 0.05 }}
+              className="grid gap-6 xl:grid-cols-2"
+            >
+              <DescriptionBreakdownChart />
+              <PaymentMethodChart />
             </motion.section>
 
             <section id="insights" className="scroll-mt-28">

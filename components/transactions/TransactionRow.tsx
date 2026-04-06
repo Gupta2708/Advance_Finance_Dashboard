@@ -31,6 +31,7 @@ export function TransactionRow({
           <p className="text-xs text-[var(--muted-foreground)]">{transaction.merchant}</p>
         </td>
         <td className="px-4 py-3 text-[var(--muted-foreground)]">{transaction.category}</td>
+        <td className="px-4 py-3 text-[var(--muted-foreground)]">{transaction.paymentMethod ?? "UPI"}</td>
         <td className="px-4 py-3">
           <span
             className={clsx(
@@ -81,7 +82,7 @@ export function TransactionRow({
   }
 
   return (
-    <div className="rounded-xl border border-slate-200/70 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+    <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4 text-[var(--foreground)] shadow-sm">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="font-medium">{transaction.description}</p>
@@ -100,6 +101,9 @@ export function TransactionRow({
       <div className="mt-3 flex items-center justify-between text-xs text-[var(--muted-foreground)]">
         <span>{formatDate(transaction.date)}</span>
         <span>{transaction.category}</span>
+        <span>{transaction.paymentMethod ?? "UPI"}</span>
+      </div>
+      <div className="mt-2 text-xs text-[var(--muted-foreground)]">
         <span className="capitalize">{transaction.type}</span>
       </div>
       {isAdmin ? (

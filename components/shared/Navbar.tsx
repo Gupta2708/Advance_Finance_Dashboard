@@ -47,7 +47,7 @@ export function Navbar() {
           <div className="flex flex-wrap items-center gap-2 xl:flex-nowrap xl:justify-end">
             <button
               type="button"
-              className="relative grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] shadow-[0_12px_30px_rgba(15,23,42,0.08)] transition hover:border-[var(--surface-strong)] hover:bg-[var(--surface-hover)]"
+              className="relative grid h-11 w-11 shrink-0 cursor-pointer place-items-center rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-[var(--foreground)] shadow-[0_12px_30px_rgba(15,23,42,0.08)] transition hover:border-[var(--surface-strong)] hover:bg-[var(--surface-hover)]"
               aria-label="Notifications"
             >
               <Bell size={17} />
@@ -87,14 +87,14 @@ export function Navbar() {
             <button
               type="button"
               onClick={handleExportCsv}
-              className="inline-flex h-11 items-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 text-sm font-semibold text-[var(--foreground)] shadow-[0_12px_30px_rgba(15,23,42,0.08)] transition hover:border-[var(--surface-strong)] hover:bg-[var(--surface-hover)] hover:text-[var(--foreground-strong)]"
+              className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 text-sm font-semibold text-[var(--foreground)] shadow-[0_12px_30px_rgba(15,23,42,0.08)] transition hover:border-[var(--surface-strong)] hover:bg-[var(--surface-hover)] hover:text-[var(--foreground-strong)]"
             >
               <Download size={16} /> CSV
             </button>
             <button
               type="button"
               onClick={handleExportJson}
-              className="inline-flex h-11 items-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 text-sm font-semibold text-[var(--foreground)] shadow-[0_12px_30px_rgba(15,23,42,0.08)] transition hover:border-[var(--surface-strong)] hover:bg-[var(--surface-hover)] hover:text-[var(--foreground-strong)]"
+              className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 text-sm font-semibold text-[var(--foreground)] shadow-[0_12px_30px_rgba(15,23,42,0.08)] transition hover:border-[var(--surface-strong)] hover:bg-[var(--surface-hover)] hover:text-[var(--foreground-strong)]"
             >
               <Download size={16} /> JSON
             </button>
@@ -102,7 +102,7 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => openModal("create")}
-                className="inline-flex h-11 items-center gap-2 rounded-2xl bg-[linear-gradient(135deg,var(--accent),#3659dc)] px-5 text-sm font-semibold text-white shadow-[0_18px_45px_rgba(37,99,235,0.32)] transition hover:-translate-y-0.5 hover:brightness-110"
+                className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-2xl bg-[linear-gradient(135deg,var(--accent),#3659dc)] px-5 text-sm font-semibold text-white shadow-[0_18px_45px_rgba(37,99,235,0.32)] transition hover:-translate-y-0.5 hover:brightness-110"
               >
                 <Plus size={16} /> Add Transaction
               </button>

@@ -1,7 +1,17 @@
 import type { Transaction } from "@/types/finance";
 
 const toCsv = (rows: Transaction[]) => {
-  const headers = ["id", "date", "description", "merchant", "amount", "category", "type", "note"];
+  const headers = [
+    "id",
+    "date",
+    "description",
+    "merchant",
+    "amount",
+    "category",
+    "type",
+    "paymentMethod",
+    "note",
+  ];
   const escaped = rows.map((row) =>
     headers
       .map((key) => {

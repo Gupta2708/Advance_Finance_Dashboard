@@ -1,5 +1,8 @@
 export type TransactionType = "income" | "expense";
 
+export const PAYMENT_METHODS = ["UPI", "Card", "NetBanking", "Wallet", "Cash"] as const;
+export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
+
 export const CATEGORIES = [
   "Food",
   "Travel",
@@ -26,6 +29,7 @@ export interface Transaction {
   amount: number;
   category: TransactionCategory;
   type: TransactionType;
+  paymentMethod: PaymentMethod;
   note?: string;
 }
 
@@ -64,4 +68,21 @@ export interface TrendPoint {
 export interface CategoryBreakdownPoint {
   category: TransactionCategory;
   value: number;
+}
+
+export interface DescriptionBreakdownPoint {
+  description: string;
+  normalizedKey: string;
+  occurrences: number;
+  income: number;
+  expense: number;
+  total: number;
+}
+
+export interface PaymentMethodBreakdownPoint {
+  paymentMethod: PaymentMethod;
+  income: number;
+  expense: number;
+  total: number;
+  transactionCount: number;
 }

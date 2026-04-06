@@ -140,12 +140,27 @@ export const useStore = create<FinanceStore>()(
     }),
     {
       name: "finance-dashboard-store",
+      version: 2,
       partialize: (state) => ({
         transactions: state.transactions,
         role: state.role,
         theme: state.theme,
       }),
       storage: createJSONStorage(() => localStorage),
+      migrate: (persistedState) => {
+        const state = persistedState as Partial<FinanceStore> | undefined;
+        if (!state?.transactions) {
+          return persistedState as FinanceStore;
+        }
+
+        return {
+          ...state,
+          transactions: state.transactions.map((transaction) => ({
+            ...transaction,
+            paymentMethod: transaction.paymentMethod ?? "UPI",
+          })),
+        } as FinanceStore;
+      },
     },
   ),
 );
